@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: bankingapi-app
-          image: {{ container_registry }}/bankingapi:latest
+          image: {{ container_registry }}/banking-api:latest
           ports:
             - containerPort: 80
               name: http-bankapi
