@@ -28,11 +28,11 @@ spec:
               value: "Express"
           resources:
             requests:
-              cpu: 100m
-              memory: 100Mi
+              memory: "2G"
+              cpu: "2000m"
             limits:
-              cpu: 500m
-              memory: 2Gi
+              memory: "2G"
+              cpu: "2000m"
           volumeMounts:
             - name: sql-storage
               mountPath: /var/opt/mssql
