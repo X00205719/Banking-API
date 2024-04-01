@@ -14,7 +14,7 @@ spec:
       labels: 
         app: sql
     spec:
-      hostname: Database
+      hostname: database
       containers:
         - name: sql
           image: mysql:latest
