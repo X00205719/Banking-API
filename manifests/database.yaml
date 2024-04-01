@@ -16,50 +16,46 @@ spec:
     spec:
       containers:
         - name: sql
-          image: mcr.microsoft.com/mssql/server:2022-latest
+          image: mysql:latest
           ports:
-            - containerPort: 1433
+            - containerPort: 3306
           env:
-            - name: ACCEPT_EULA
-              value: "Y"
-            - name: SA_PASSWORD
+            - name: MYSQL_ROOT_PASSWORD
               value: {{ SA_PASSWORD }}
-            - name: MSSQL_PID
-              value: "Express"
           resources:
             requests:
-              memory: "2G"
-              cpu: "2000m"
+              memory: "1G"
+              cpu: "1000m"
             limits:
-              memory: "2G"
-              cpu: "2000m"
+              memory: "1G"
+              cpu: "1000m"
           volumeMounts:
-            - name: sql-storage
-              mountPath: /var/opt/mssql
+            - name: mysql-storage
+              mountPath: /var/lib/mysql
       volumes:
-        - name: sql-storage
+        - name: mysql-storage
           persistentVolumeClaim:
-            claimName: sql-pvc
+            claimName: mysql-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: sql-service
+  name: mysql-service
 spec:
   selector:
-    app: sql
+    app: sql  # Match the labels of the pods
   ports:
-    - name: sql-port
+    - name: mysql-port
       protocol: TCP
-      port: 1433
-      targetPort: 1433
+      port: 3306
+      targetPort: 3306
   type: ClusterIP
 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: sql-pvc
+  name: mysql-pvc
 spec:
   accessModes:
     - ReadWriteOnce
