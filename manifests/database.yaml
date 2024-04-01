@@ -33,7 +33,13 @@ spec:
             limits:
               cpu: 200m
               memory: 200Mi
-
+          volumeMounts:
+            - name: sql-storage
+              mountPath: /var/opt/mssql
+      volumes:
+        - name: sql-storage
+          persistentVolumeClaim:
+            claimName: sql-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -48,3 +54,15 @@ spec:
       port: 1433
       targetPort: 1433
   type: ClusterIP
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sql-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi # Adjust the size according to your needs
