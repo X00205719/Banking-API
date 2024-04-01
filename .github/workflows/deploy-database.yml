@@ -1,0 +1,36 @@
+name: AKS Deployment
+
+on:
+  push:
+    branches:
+      - main  # Change this to your main branch name
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+    # Fetch Kubernetes credentials
+    - name: Set up Kubernetes
+      uses: azure/aks-set-context@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        cluster-name: my-aks-cluster
+        resource-group: kubernetes
+
+  # Replace placeholder with actual container registry URL
+    - name: Replace Container Registry URL
+      run: sed -i 's|{{ SA_PASSWORD }}|${{ secrets.SA_PASSWORD }}|g' manifests/database.yaml
+
+    # Apply Kubernetes manifest
+    - name: Apply Kubernetes manifest
+      run: |
+        kubectl apply -f manifests/database.yaml
