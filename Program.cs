@@ -12,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultValue")));
+    options.UseMySQL(builder.Configuration.GetConnectionString("DefaultValue")));
 
 var app = builder.Build();
 
