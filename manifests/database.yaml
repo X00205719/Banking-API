@@ -24,11 +24,11 @@ spec:
               value: {{ SA_PASSWORD }}
           resources:
             requests:
-              memory: "1G"
-              cpu: "1000m"
+              memory: "256Mi"
+              cpu: "0.1"
             limits:
-              memory: "1G"
-              cpu: "1000m"
+              memory: "512Mi"
+              cpu: "0.5"
           volumeMounts:
             - name: mysql-storage
               mountPath: /var/lib/mysql
