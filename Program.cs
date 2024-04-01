@@ -1,5 +1,6 @@
 using BankingApi;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("DefaultValue")));
 
+builder.Services
+    .AddHealthChecks()
+    .AddMySql(connectionString: builder.Configuration.GetConnectionString("DefaultValue"));
+
 var app = builder.Build();
 
 
@@ -23,6 +28,8 @@ app.UseSwaggerUI();
 // app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseHealthChecks("/health");
 
 app.MapControllers();
 
