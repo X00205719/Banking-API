@@ -1,4 +1,4 @@
-name: AKS Database Deployment
+name: AKS - Database Deployment
 
 on:
   workflow_dispatch:

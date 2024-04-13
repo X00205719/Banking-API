@@ -1,4 +1,4 @@
-name: API Docker Image to ACR
+name: ACR - API Docker Image
 
 on:
   workflow_dispatch:
