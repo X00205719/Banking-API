@@ -20,7 +20,7 @@ public class HomeController : Controller
     {
         string apiUrl = _configuration["ApiSettings:BaseUrl"];
 
-          _logger.LogInformation("Calling API at URL: {0}", apiUrl + "/api/BankAccounts");
+          _logger.LogTrace("Calling API at URL: {0}", apiUrl + "/api/BankAccounts");
 
         using (HttpClient client = new HttpClient())
         {
