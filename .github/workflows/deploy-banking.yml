@@ -1,0 +1,34 @@
+name: AKS API Deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+    # Fetch Kubernetes credentials
+    - name: Set up Kubernetes
+      uses: azure/aks-set-context@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        cluster-name: my-aks-cluster
+        resource-group: kubernetes
+
+  # Replace placeholder with actual container registry URL
+    - name: Replace Container Registry URL
+      run: sed -i 's|{{ container_registry }}|${{ secrets.CONTAINER_REGISTRY_URL }}|g' manifests/bankingapi.yaml
+
+    # Apply Kubernetes manifest
+    - name: Apply Kubernetes manifest
+      run: |
+        kubectl apply -f manifests/bankingapi.yaml

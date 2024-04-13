@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bankingapi-deployment
+  name: banking-deployment
   annotations: 
     kubernetes.io/change-cause: "Updating from V1:v2"
 spec:
   replicas: 6
   selector:
     matchLabels:
-      app: bankingapi-app
+      app: banking
   template:
     metadata:
-      name: bankingapi
+      name: banking
       labels: 
         env: prod
-        app: bankingapi-app
-        app.kubernetes.io/name: bankingapi-app
+        app: banking
+        app.kubernetes.io/name: banking-app
     spec:
       containers:
-        - name: bankingapi-app
-          image: {{ container_registry }}/banking-api:latest
+        - name: banking-app
+          image: {{ container_registry }}/banking:latest
           ports:
             - containerPort: 80
-              name: http-bankapi
+              name: http-banking
           resources:
             requests:
               cpu: 100m
@@ -34,17 +34,17 @@ spec:
             - name: ASPNETCORE_URLS
               value: http://+:80
 
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: my-lb-service
-# spec:
-#   selector:
-#     app.kubernetes.io/name: bankingapi-app
-#   ports:
-#     - name: bankingapi-port
-#       protocol: TCP
-#       port: 80
-#       targetPort: 80
-#   type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-lb-service
+spec:
+  selector:
+    app.kubernetes.io/name: banking
+  ports:
+    - name: banking-port
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
