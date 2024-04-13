@@ -7,7 +7,7 @@ COPY src/api/BankingApi.csproj ./
 RUN dotnet restore BankingApi.csproj
 
 COPY src/api/ ./
-RUN dotnet publish -c Release -o out
+RUN dotnet publish BankingApi.csproj -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0
 WORKDIR /app
