@@ -13,8 +13,21 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index()
+    public Task<ActionResult> Index()
     {
+         using (HttpClient client = new HttpClient())
+         {
+            HttpResponseMessage response = await client.GetAsync("http://localhost:5053/api/BankAccounts");
+             if (response.IsSuccessStatusCode)
+             {
+                    // Read the response content as a string
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    var bankAccounts = JsonConvert.DeserializeObject<List<BankAccount>>(responseContent);
+
+                    return View("Index", bankAccounts);
+              }
+
+         }
         return View();
     }
 
