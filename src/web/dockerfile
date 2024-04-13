@@ -3,8 +3,8 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-COPY src/web/*.csproj ./
-RUN dotnet restore
+COPY src/web/Banking.csproj ./
+RUN dotnet restore Banking.csproj
 
 COPY src/web/ ./
 RUN dotnet publish -c Release -o out
