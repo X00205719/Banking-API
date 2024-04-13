@@ -31,4 +31,4 @@ jobs:
     # Apply Kubernetes manifest
     - name: Apply Kubernetes manifest
       run: |
-        kubectl apply -f manifests/bankingapi.yaml
+        kubectl apply -f .kubernetes/manifests/bankingapi.yaml
