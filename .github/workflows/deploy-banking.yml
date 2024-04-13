@@ -26,9 +26,9 @@ jobs:
 
   # Replace placeholder with actual container registry URL
     - name: Replace Container Registry URL
-      run: sed -i 's|{{ container_registry }}|${{ secrets.CONTAINER_REGISTRY_URL }}|g' manifests/bankingapi.yaml
+      run: sed -i 's|{{ container_registry }}|${{ secrets.CONTAINER_REGISTRY_URL }}|g' manifests/banking.yaml
 
     # Apply Kubernetes manifest
     - name: Apply Kubernetes manifest
       run: |
-        kubectl apply -f manifests/bankingapi.yaml
+        kubectl apply -f manifests/banking.yaml
