@@ -1,4 +1,4 @@
-name: AKS API Deployment
+name: AKS WEB Deployment
 
 on:
   workflow_dispatch:
