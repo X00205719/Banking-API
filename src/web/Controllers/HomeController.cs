@@ -20,6 +20,8 @@ public class HomeController : Controller
     {
         string apiUrl = _configuration["ApiSettings:BaseUrl"];
 
+          _logger.LogInformation("Calling API at URL: {0}", apiUrl + "/api/BankAccounts");
+
         using (HttpClient client = new HttpClient())
         {
             HttpResponseMessage response = await client.GetAsync(apiUrl + "/api/BankAccounts");
