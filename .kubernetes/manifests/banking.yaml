@@ -8,13 +8,13 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: banking
+      app: banking-app
   template:
     metadata:
       name: banking
       labels: 
         env: prod
-        app: banking
+        app: banking-app
         app.kubernetes.io/name: banking-app
     spec:
       containers:
@@ -41,7 +41,7 @@ metadata:
   name: banking-lb-service
 spec:
   selector:
-    app.kubernetes.io/name: banking
+    app.kubernetes.io/name: banking-app
   ports:
     - name: banking-port
       protocol: TCP
