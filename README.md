@@ -1,1 +1,1 @@
-# BankingApi
+# Banking
