@@ -40,7 +40,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: banking-lb-service
+  name: banking-service
 spec:
   selector:
     app.kubernetes.io/name: banking-app
@@ -49,4 +49,4 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 80
-  type: LoadBalancer
+  type: ClusterIP
