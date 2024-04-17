@@ -1,4 +1,4 @@
-name: ACR - WEB Docker Image
+name: ACR - Web Docker Image
 
 on:
   workflow_dispatch:
