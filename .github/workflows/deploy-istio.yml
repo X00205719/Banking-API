@@ -1,4 +1,4 @@
-name: AKS - ISTIO
+name: AKS - Istio
 
 on:
   workflow_dispatch:

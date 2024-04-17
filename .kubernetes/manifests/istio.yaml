@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: banking-gateway
+  name: external-gateway
 spec:
   selector:
     istio: aks-istio-ingressgateway-external
@@ -21,11 +21,11 @@ spec:
   hosts:
   - "*"
   gateways:
-  - banking-gateway
+  - external-gateway
   http:
   - match:
     - uri:
-        prefix: "/banking"
+        exact: /
     route:
     - destination:
         host: banking-service
