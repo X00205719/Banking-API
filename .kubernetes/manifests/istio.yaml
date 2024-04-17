@@ -25,9 +25,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: "/Banking/"
-    rewrite:
-      uri: "/"
+        prefix: /Banking
     route:
     - destination:
         host: banking-service.default.svc.cluster.local
