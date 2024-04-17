@@ -26,10 +26,6 @@ spec:
   - match:
     - uri:
         prefix: "/Banking"
-    rewrite:
-      uri: "/"
-    rewriteRequest:
-      uri: "/Banking"
     route:
     - destination:
         host: banking-service
