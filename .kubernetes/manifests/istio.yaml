@@ -25,7 +25,7 @@ spec:
   http:
   - match:
     - uri:
-        exact: /
+        prefix: "/Banking"
     route:
     - destination:
         host: banking-service
