@@ -21,10 +21,15 @@ jobs:
         docker build -f src/web/dockerfile -t ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ github.sha }} .
         docker tag ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ github.sha }} ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:latest
 
-    # Add Trivy container scan before pushing
-    - name: Scan Docker image with Trivy
-      run: |
-        docker run --rm -v $(pwd):/workdir aquasec/trivy ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ github.sha }}
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: '${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ github.sha }}'
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL,HIGH'
 
     - name: Log in to Azure Container Registry with Service Principal
       run: |
