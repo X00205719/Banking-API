@@ -24,7 +24,7 @@ jobs:
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ github.sha }}
+        image-ref: ${{ secrets.REGISTRY_NAME }}.azurecr.io/bankingapi:${{ github.sha }}
         format: 'sarif'
         output: 'trivy-results.sarif'
         severity: 'CRITICAL,HIGH'
