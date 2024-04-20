@@ -60,7 +60,7 @@ jobs:
     - name: Generate and Commit Kustomize Configuration
       run: |
         cd Kustomize/overlays/prod
-        kustomize edit set image banking-deployment=${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ env.VERSION }}.${{ github.run_number }}
+        kustomize edit set image lostud.azurecr.io/banking=${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ env.VERSION }}.${{ github.run_number }}
         kustomize build . 
         git add kustomization.yaml
         git config --local user.email "action@github.com"
