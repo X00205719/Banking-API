@@ -45,3 +45,24 @@ jobs:
       run: |
         docker push ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ github.sha }}
         docker push ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ env.VERSION }}.${{ github.run_number }}
+
+    - name: Checkout another repository
+      uses: actions/checkout@v2
+      with:
+        repository: 'X00205719/Kustomize'
+        path: 'Kustomize'
+        ref: 'main'
+    
+    - name: Set up Kustomize
+      uses: imranismail/setup-kustomize@v1
+
+    - name: Generate and Commit Kustomize Configuration
+      run: |
+        cd Kustomize/overlays/prod
+        kustomize edit set image banking-deployment=${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ env.VERSION }}.${{ github.run_number }}
+        kustomize build . 
+        git add kustomization.yaml
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Update Kustomize configuration to v${{ env.VERSION }}.${{ github.run_number }}"
+        git push origin main
