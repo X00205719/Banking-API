@@ -16,16 +16,25 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Extract version tag
-      id: get_version
+    - name: Log in to Azure Container Registry with Service Principal
       run: |
-        echo "VERSION_TAG=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
-        echo "::set-output name=version::${GITHUB_REF#refs/tags/v}"
-    
+          docker login -u ${{ secrets.AZ_CLIENT_ID }} -p ${{ secrets.AZ_CLIENT_SECRET }} ${{ secrets.REGISTRY_NAME }}.azurecr.io
+
+    - name: Extract metadata (tags, labels)
+      id: meta
+      uses: docker/metadata-action@v3
+      with:
+        images: lostud.azurecr.io/banking
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=sha
+  
     - name: Build Docker image
       run: |
         docker build -f src/web/dockerfile -t ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ github.sha }} .
-        docker tag ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ steps.get_version.outputs.version }}
+        docker tag ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ github.sha }} ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:latest
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
@@ -39,10 +48,6 @@ jobs:
       uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: 'trivy-results.sarif'
-
-    - name: Log in to Azure Container Registry with Service Principal
-      run: |
-          docker login -u ${{ secrets.AZ_CLIENT_ID }} -p ${{ secrets.AZ_CLIENT_SECRET }} ${{ secrets.REGISTRY_NAME }}.azurecr.io
 
     - name: Push Docker image to Azure Container Registry
       run: |
