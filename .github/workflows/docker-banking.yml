@@ -44,4 +44,4 @@ jobs:
     - name: Push Docker image to Azure Container Registry
       run: |
         docker push ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ github.sha }}
-        docker push ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:latest
+        docker push ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ env.VERSION }}.${{ github.run_number }}
