@@ -3,6 +3,9 @@ name: ACR - Web Docker Image
 on:
   workflow_dispatch:
 
+env:
+  VERSION: "1"
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -19,22 +22,11 @@ jobs:
     - name: Log in to Azure Container Registry with Service Principal
       run: |
           docker login -u ${{ secrets.AZ_CLIENT_ID }} -p ${{ secrets.AZ_CLIENT_SECRET }} ${{ secrets.REGISTRY_NAME }}.azurecr.io
-
-    - name: Extract metadata (tags, labels)
-      id: meta
-      uses: docker/metadata-action@v3
-      with:
-        images: lostud.azurecr.io/banking
-        tags: |
-          type=ref,event=branch
-          type=ref,event=pr
-          type=semver,pattern={{version}}
-          type=sha
   
     - name: Build Docker image
       run: |
         docker build -f src/web/dockerfile -t ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ github.sha }} .
-        docker tag ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ github.sha }} ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:latest
+        docker tag ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ github.sha }} ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ env.VERSION }}.${{ github.run_number }}
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
