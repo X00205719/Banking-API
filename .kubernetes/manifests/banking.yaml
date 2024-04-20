@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: banking-app
-          image: {{ container_registry }}/banking:latest
+          image: {{ container_registry }}/banking:1.22
           ports:
             - containerPort: 80
               name: http-banking
