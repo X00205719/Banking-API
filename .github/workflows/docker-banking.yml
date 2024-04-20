@@ -59,11 +59,11 @@ jobs:
 
     - name: Generate and Commit Kustomize Configuration
       run: |
-        cd Kustomize/overlays/prod
+        cd Kustomize/overlays/canary
         kustomize edit set image lostud.azurecr.io/banking=${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ env.VERSION }}.${{ github.run_number }}
         kustomize build . 
         git add kustomization.yaml
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git commit -m "Update Kustomize configuration to v${{ env.VERSION }}.${{ github.run_number }}"
+        git commit -m "Update canary configuration to v${{ env.VERSION }}.${{ github.run_number }}"
         git push origin main
