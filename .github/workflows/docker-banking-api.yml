@@ -22,7 +22,7 @@ jobs:
     - name: Build Docker image
       run: |
         docker build -f dockerfile -t ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking-api:${{ github.sha }} .
-        docker tag ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking-api:${{ github.sha }} ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking:${{ env.VERSION }}.${{ github.run_number }}
+        docker tag ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking-api:${{ github.sha }} ${{ secrets.REGISTRY_NAME }}.azurecr.io/banking-api:${{ env.VERSION }}.${{ github.run_number }}
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
